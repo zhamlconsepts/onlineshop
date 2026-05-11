@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <title>StyleVault — Kiyim Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+  <div class="app">
+
+    <header class="header">
+      <div class="header-inner">
+        <div class="logo">STYLE<span>VAULT</span></div>
+        <div class="header-subtitle">3D Kiyim Gallery</div>
+      </div>
+    </header>
+
+    <div class="filters-bar">
+      <button class="filter-btn active" data-filter="all">Hammasi</button>
+      <button class="filter-btn" data-filter="sviter">Sviterlar</button>
+      <button class="filter-btn" data-filter="hoodie">Hoodilar</button>
+      <button class="filter-btn" data-filter="koylak">Ko'ylaklar</button>
+      <button class="filter-btn" data-filter="kurtak">Kurtaklar</button>
+      <button class="filter-btn" data-filter="shapka">Shapkalar</button>
+    </div>
+
+    <main class="main">
+
+      <section class="featured-section">
+        <div class="featured-stage">
+          <div class="featured-glow" id="featuredGlow"></div>
+          <img class="featured-img" id="featuredImg" src="" alt="" />
+        </div>
+        <div class="featured-info">
+          <p class="featured-brand" id="featuredBrand">ZARA</p>
+          <h2 class="featured-name" id="featuredName">—</h2>
+          <div class="featured-price-row">
+            <span class="featured-price" id="featuredPrice">$0</span>
+          </div>
+          <div class="color-row" id="colorRow"></div>
+          <button class="buy-btn">Sotib olish &rarr;</button>
+        </div>
+      </section>
+
+      <section class="grid-section">
+        <div class="items-grid" id="itemsGrid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    const items = [
+      {id:1,  cat:"sviter", brand:"ZARA",          name:"Merino Wool Sweater",       price:"$89",  colors:["#8B6914","#2d4a2d","#1a1a2e"], img:"img/01-merino-wool-sweater.jpg"},
+      {id:2,  cat:"hoodie", brand:"H&M",            name:"Oversized Hoodie",           price:"$55",  colors:["#1a1a1a","#4a4a6a","#6b3a3a"], img:"img/02-oversized-hoodie.jpg"},
+      {id:3,  cat:"kurtak", brand:"MANGO",          name:"Leather Biker Jacket",       price:"$195", colors:["#1a1a1a","#3d2b1f","#2d3a2d"], img:"img/03-leather-biker-jacket.jpg"},
+      {id:4,  cat:"koylak", brand:"UNIQLO",         name:"Cotton Oversized Tee",       price:"$29",  colors:["#f5f0e8","#2d4a2d","#1a1a2e"], img:"img/04-cotton-oversized-tee.jpg"},
+      {id:5,  cat:"sviter", brand:"COS",            name:"Ribbed Knit Pullover",       price:"$110", colors:["#c4a882","#4a3728","#2d2d4a"], img:"img/05-ribbed-knit-pullover.jpg"},
+      {id:6,  cat:"kurtak", brand:"NORTH FACE",     name:"Puffer Down Jacket",         price:"$249", colors:["#1a2a4a","#3a1a1a","#1a3a1a"], img:"img/06-puffer-down-jacket.jpg"},
+      {id:7,  cat:"hoodie", brand:"SUPREME",        name:"Box Logo Hoodie",            price:"$168", colors:["#8b0000","#1a1a1a","#f5f0e8"], img:"img/07-box-logo-hoodie.jpg"},
+      {id:8,  cat:"koylak", brand:"PALACE",         name:"Striped Longsleeve",         price:"$75",  colors:["#1a1a2e","#f5f0e8","#2d4a2d"], img:"img/08-striped-longsleeve.jpg"},
+      {id:9,  cat:"shapka", brand:"CARHARTT",       name:"Acrylic Watch Hat",          price:"$22",  colors:["#1a1a1a","#8b0000","#2d4a2d"], img:"img/09-acrylic-watch-hat.jpg"},
+      {id:10, cat:"sviter", brand:"ACNE STUDIOS",   name:"Fairisle Wool Knit",         price:"$320", colors:["#c4a882","#1a1a2e","#3d2b1f"], img:"img/10-fairisle-wool-knit.jpg"},
+      {id:11, cat:"kurtak", brand:"CARHARTT",       name:"Detroit Work Jacket",        price:"$135", colors:["#3d2b1f","#1a1a1a","#2d4a2d"], img:"img/11-detroit-work-jacket.jpg"},
+      {id:12, cat:"koylak", brand:"FEAR OF GOD",    name:"Essentials Tee",             price:"$90",  colors:["#c4a882","#1a1a1a","#4a3728"], img:"img/12-essentials-tee.jpg"},
+      {id:13, cat:"hoodie", brand:"STÜSSY",         name:"Stock Logo Hoodie",          price:"$98",  colors:["#2d4a2d","#1a1a1a","#1a1a2e"], img:"img/13-stock-logo-hoodie.jpg"},
+      {id:14, cat:"shapka", brand:"NEW ERA",        name:"9FIFTY Snapback Cap",        price:"$38",  colors:["#1a1a1a","#8b0000","#1a1a2e"], img:"img/14-snapback-cap.jpg"},
+      {id:15, cat:"sviter", brand:"RALPH LAUREN",   name:"Cable-Knit Crewneck",        price:"$145", colors:["#c4a882","#8b6914","#2d2d4a"], img:"img/15-cable-knit-crewneck.jpg"},
+      {id:16, cat:"kurtak", brand:"COLUMBIA",       name:"Fleece Tech Jacket",         price:"$110", colors:["#1a2a4a","#3a1a1a","#2d4a2d"], img:"img/16-fleece-tech-jacket.jpg"},
+      {id:17, cat:"sviter", brand:"TOMMY HILFIGER", name:"Classic Cable Sweater",      price:"$120", colors:["#1a1a2e","#c4a882","#8b0000"], img:"img/01-merino-wool-sweater.jpg"},
+      {id:18, cat:"hoodie", brand:"CHAMPION",       name:"Reverse Weave Hoodie",       price:"$65",  colors:["#2d4a2d","#1a1a1a","#c4a882"], img:"img/02-oversized-hoodie.jpg"},
+      {id:19, cat:"kurtak", brand:"LEVI'S",         name:"Trucker Denim Jacket",       price:"$98",  colors:["#1a1a2e","#3d2b1f","#1a1a1a"], img:"img/03-leather-biker-jacket.jpg"},
+      {id:20, cat:"koylak", brand:"VERSACE",        name:"Baroque Print Shirt",        price:"$320", colors:["#8b6914","#1a1a1a","#2d3a2d"], img:"img/04-cotton-oversized-tee.jpg"},
+      {id:21, cat:"sviter", brand:"GUCCI",          name:"GG Wool Intarsia",           price:"$890", colors:["#8b6914","#2d4a2d","#c4a882"], img:"img/05-ribbed-knit-pullover.jpg"},
+      {id:22, cat:"kurtak", brand:"PATAGONIA",      name:"Nano Puff Jacket",           price:"$199", colors:["#1a2a4a","#2d4a2d","#3a1a1a"], img:"img/06-puffer-down-jacket.jpg"},
+      {id:23, cat:"hoodie", brand:"BAPE",           name:"Shark Full Zip Hoodie",      price:"$340", colors:["#2d4a2d","#8b0000","#1a1a1a"], img:"img/07-box-logo-hoodie.jpg"},
+      {id:24, cat:"koylak", brand:"OFF-WHITE",      name:"Diagonal Arrows Tee",        price:"$290", colors:["#f5f0e8","#1a1a1a","#2d4a2d"], img:"img/08-striped-longsleeve.jpg"},
+      {id:25, cat:"shapka", brand:"SUPREME",        name:"S Logo Camp Cap",            price:"$48",  colors:["#8b0000","#1a1a1a","#f5f0e8"], img:"img/09-acrylic-watch-hat.jpg"},
+      {id:26, cat:"sviter", brand:"KENZO",          name:"Tiger Embroidered Knit",     price:"$450", colors:["#8b0000","#1a1a1a","#c4a882"], img:"img/10-fairisle-wool-knit.jpg"},
+      {id:27, cat:"kurtak", brand:"STONE ISLAND",   name:"Garment Dyed Jacket",        price:"$580", colors:["#3d2b1f","#2d4a2d","#1a1a1a"], img:"img/11-detroit-work-jacket.jpg"},
+      {id:28, cat:"koylak", brand:"BALENCIAGA",     name:"Oversized T-Shirt",          price:"$395", colors:["#1a1a1a","#f5f0e8","#c4a882"], img:"img/12-essentials-tee.jpg"},
+      {id:29, cat:"hoodie", brand:"NIKE",           name:"Tech Fleece Hoodie",         price:"$110", colors:["#1a1a1a","#1a1a2e","#2d4a2d"], img:"img/13-stock-logo-hoodie.jpg"},
+      {id:30, cat:"shapka", brand:"PALACE",         name:"Tri-Ferg Bucket Hat",        price:"$55",  colors:["#1a1a1a","#2d4a2d","#8b0000"], img:"img/14-snapback-cap.jpg"},
+      {id:31, cat:"sviter", brand:"BURBERRY",       name:"Check Wool Pullover",        price:"$690", colors:["#8b6914","#c4a882","#3d2b1f"], img:"img/15-cable-knit-crewneck.jpg"},
+      {id:32, cat:"kurtak", brand:"ARCTERYX",       name:"Beta AR Shell Jacket",       price:"$749", colors:["#1a2a4a","#1a1a1a","#2d4a2d"], img:"img/16-fleece-tech-jacket.jpg"},
+      {id:33, cat:"sviter", brand:"AMI PARIS",      name:"de Coeur Wool Sweater",      price:"$380", colors:["#2d4a2d","#c4a882","#1a1a1a"], img:"img/01-merino-wool-sweater.jpg"},
+      {id:34, cat:"hoodie", brand:"ADIDAS",         name:"Trefoil Essential Hoodie",   price:"$70",  colors:["#1a1a1a","#f5f0e8","#1a1a2e"], img:"img/02-oversized-hoodie.jpg"},
+      {id:35, cat:"kurtak", brand:"PRADA",          name:"Re-Nylon Gabardine Jacket",  price:"$1290",colors:["#1a1a1a","#2d3a2d","#1a1a2e"], img:"img/03-leather-biker-jacket.jpg"},
+      {id:36, cat:"koylak", brand:"SAINT LAURENT",  name:"Rock Band Distressed Tee",   price:"$550", colors:["#1a1a1a","#3d2b1f","#8b0000"], img:"img/04-cotton-oversized-tee.jpg"},
+      {id:37, cat:"sviter", brand:"MAISON MARGIELA",name:"Distressed Wool Knit",       price:"$620", colors:["#f5f0e8","#c4a882","#1a1a1a"], img:"img/05-ribbed-knit-pullover.jpg"},
+      {id:38, cat:"kurtak", brand:"MONCLER",        name:"Himalaya Down Jacket",       price:"$1850",colors:["#1a1a1a","#1a2a4a","#3a1a1a"], img:"img/06-puffer-down-jacket.jpg"},
+      {id:39, cat:"hoodie", brand:"ESSENTIALS",     name:"Pullover Hoodie",            price:"$85",  colors:["#c4a882","#1a1a1a","#4a3728"], img:"img/07-box-logo-hoodie.jpg"},
+      {id:40, cat:"koylak", brand:"HUMAN MADE",     name:"Graphic Long Sleeve",        price:"$180", colors:["#f5f0e8","#1a1a2e","#8b6914"], img:"img/08-striped-longsleeve.jpg"},
+      {id:41, cat:"shapka", brand:"STÜSSY",         name:"8 Ball Fleece Cap",          price:"$45",  colors:["#1a1a1a","#2d4a2d","#1a1a2e"], img:"img/09-acrylic-watch-hat.jpg"},
+      {id:42, cat:"sviter", brand:"JACQUEMUS",      name:"Le Pull Maille Sweater",     price:"$490", colors:["#c4a882","#8b6914","#2d4a2d"], img:"img/10-fairisle-wool-knit.jpg"},
+      {id:43, cat:"kurtak", brand:"ALPHA INDUSTRIES",name:"MA-1 Bomber Jacket",       price:"$175", colors:["#1a1a1a","#2d4a2d","#8b6914"], img:"img/11-detroit-work-jacket.jpg"},
+      {id:44, cat:"koylak", brand:"DIOR",           name:"Bee Embroidered Polo",       price:"$650", colors:["#1a1a2e","#f5f0e8","#c4a882"], img:"img/12-essentials-tee.jpg"},
+      {id:45, cat:"hoodie", brand:"UNDERCOVER",     name:"Chaos Balance Hoodie",       price:"$420", colors:["#1a1a1a","#8b0000","#2d4a2d"], img:"img/13-stock-logo-hoodie.jpg"},
+      {id:46, cat:"shapka", brand:"KAPITAL",        name:"Ring Knit Wool Beanie",      price:"$85",  colors:["#8b6914","#c4a882","#3d2b1f"], img:"img/14-snapback-cap.jpg"},
+      {id:47, cat:"sviter", brand:"THE ROW",        name:"Devon Cashmere Sweater",     price:"$1200",colors:["#c4a882","#f5f0e8","#4a3728"], img:"img/15-cable-knit-crewneck.jpg"},
+      {id:48, cat:"kurtak", brand:"WOOLRICH",       name:"Arctic Parka",               price:"$850", colors:["#1a1a1a","#3d2b1f","#1a2a4a"], img:"img/16-fleece-tech-jacket.jpg"},
+      {id:49, cat:"sviter", brand:"LOEWE",          name:"Anagram Embroidered Knit",   price:"$780", colors:["#c4a882","#2d4a2d","#1a1a1a"], img:"img/01-merino-wool-sweater.jpg"},
+      {id:50, cat:"hoodie", brand:"JORDAN",         name:"Fleece Pullover Hoodie",     price:"$90",  colors:["#8b0000","#1a1a1a","#2d4a2d"], img:"img/02-oversized-hoodie.jpg"},
+      {id:51, cat:"kurtak", brand:"DIESEL",         name:"Faux Leather Biker",         price:"$290", colors:["#1a1a1a","#3d2b1f","#1a2a4a"], img:"img/03-leather-biker-jacket.jpg"},
+      {id:52, cat:"koylak", brand:"PALM ANGELS",    name:"Burning Logo Tee",           price:"$210", colors:["#1a1a1a","#8b0000","#f5f0e8"], img:"img/04-cotton-oversized-tee.jpg"},
+      {id:53, cat:"sviter", brand:"BOTTEGA VENETA", name:"Intrecciato Knit Pullover",  price:"$1650",colors:["#8b6914","#c4a882","#3d2b1f"], img:"img/05-ribbed-knit-pullover.jpg"},
+      {id:54, cat:"kurtak", brand:"CANADA GOOSE",   name:"Expedition Parka",           price:"$1095",colors:["#1a1a1a","#1a2a4a","#3d2b1f"], img:"img/06-puffer-down-jacket.jpg"},
+      {id:55, cat:"hoodie", brand:"VETEMENTS",      name:"Logo Hoodie Oversized",      price:"$590", colors:["#1a1a1a","#f5f0e8","#8b0000"], img:"img/07-box-logo-hoodie.jpg"},
+      {id:56, cat:"koylak", brand:"COMME DES GARÇONS",name:"Heart Patch Tee",         price:"$180", colors:["#f5f0e8","#8b0000","#1a1a1a"], img:"img/08-striped-longsleeve.jpg"},
+      {id:57, cat:"shapka", brand:"RHUDE",          name:"Chevron Wool Beanie",        price:"$120", colors:["#1a1a1a","#c4a882","#8b0000"], img:"img/09-acrylic-watch-hat.jpg"},
+      {id:58, cat:"sviter", brand:"MISSONI",        name:"Zigzag Knit Sweater",        price:"$520", colors:["#8b0000","#8b6914","#1a1a2e"], img:"img/10-fairisle-wool-knit.jpg"},
+      {id:59, cat:"kurtak", brand:"TEN C",          name:"OJJ Jacket",                 price:"$1350",colors:["#3d2b1f","#1a1a1a","#2d4a2d"], img:"img/11-detroit-work-jacket.jpg"},
+      {id:60, cat:"koylak", brand:"GALLERY DEPT.",  name:"Paint Splatter Tee",         price:"$220", colors:["#f5f0e8","#c4a882","#1a1a1a"], img:"img/12-essentials-tee.jpg"},
+      {id:61, cat:"hoodie", brand:"RHUDE",          name:"Traxedo Hoodie",             price:"$490", colors:["#1a1a1a","#c4a882","#4a3728"], img:"img/13-stock-logo-hoodie.jpg"},
+      {id:62, cat:"shapka", brand:"BRAIN DEAD",     name:"Reversible Bucket Hat",      price:"$60",  colors:["#1a1a1a","#2d4a2d","#8b6914"], img:"img/14-snapback-cap.jpg"},
+      {id:63, cat:"sviter", brand:"ECKHAUS LATTA",  name:"Boucle Knit Sweater",        price:"$385", colors:["#c4a882","#4a3728","#f5f0e8"], img:"img/15-cable-knit-crewneck.jpg"},
+      {id:64, cat:"kurtak", brand:"MONITALY",       name:"Vancloth Cruiser Jacket",    price:"$430", colors:["#3d2b1f","#2d4a2d","#8b6914"], img:"img/16-fleece-tech-jacket.jpg"},
+      {id:65, cat:"sviter", brand:"ISABEL MARANT",  name:"Drussell Mohair Sweater",    price:"$560", colors:["#8b6914","#c4a882","#2d4a2d"], img:"img/01-merino-wool-sweater.jpg"},
+      {id:66, cat:"hoodie", brand:"BILLIONAIRE BOYS",name:"BB Logo Hoodie",            price:"$145", colors:["#1a1a1a","#8b0000","#1a1a2e"], img:"img/02-oversized-hoodie.jpg"},
+      {id:67, cat:"kurtak", brand:"HELMUT LANG",    name:"Leather Moto Jacket",        price:"$890", colors:["#1a1a1a","#3d2b1f","#4a3728"], img:"img/03-leather-biker-jacket.jpg"},
+      {id:68, cat:"koylak", brand:"RICK OWENS",     name:"Jumbo Tee",                  price:"$380", colors:["#1a1a1a","#4a3728","#2d2d4a"], img:"img/04-cotton-oversized-tee.jpg"},
+      {id:69, cat:"sviter", brand:"WALES BONNER",   name:"Merino Knit Polo",           price:"$420", colors:["#2d4a2d","#c4a882","#1a1a2e"], img:"img/05-ribbed-knit-pullover.jpg"},
+      {id:70, cat:"kurtak", brand:"HERNO",          name:"Ultralight Nylon Jacket",    price:"$695", colors:["#1a2a4a","#1a1a1a","#2d3a2d"], img:"img/06-puffer-down-jacket.jpg"},
+      {id:71, cat:"hoodie", brand:"MARTINE ROSE",   name:"Twisted Hoodie",             price:"$380", colors:["#f5f0e8","#1a1a1a","#8b0000"], img:"img/07-box-logo-hoodie.jpg"},
+      {id:72, cat:"koylak", brand:"NEEDLES",        name:"Papillon Embroidered Shirt", price:"$320", colors:["#8b6914","#f5f0e8","#1a1a2e"], img:"img/08-striped-longsleeve.jpg"},
+      {id:73, cat:"shapka", brand:"ENGINEERED GARMENTS",name:"Bucket Hat Herringbone", price:"$68", colors:["#3d2b1f","#1a1a1a","#c4a882"], img:"img/09-acrylic-watch-hat.jpg"},
+      {id:74, cat:"sviter", brand:"NANUSHKA",       name:"Faux Shearling Sweater",     price:"$310", colors:["#c4a882","#8b6914","#f5f0e8"], img:"img/10-fairisle-wool-knit.jpg"},
+      {id:75, cat:"kurtak", brand:"WTAPS",          name:"Jungle LS Jacket",           price:"$390", colors:["#2d4a2d","#3d2b1f","#1a1a1a"], img:"img/11-detroit-work-jacket.jpg"},
+      {id:76, cat:"koylak", brand:"AURALEE",        name:"Smooth Soft Sweat Tee",      price:"$180", colors:["#f5f0e8","#c4a882","#2d4a2d"], img:"img/12-essentials-tee.jpg"},
+      {id:77, cat:"hoodie", brand:"NEIGHBORHOOD",   name:"Classic Pullover Hoodie",    price:"$195", colors:["#1a1a1a","#3d2b1f","#2d4a2d"], img:"img/13-stock-logo-hoodie.jpg"},
+      {id:78, cat:"shapka", brand:"CELINE",         name:"Triomphe Baseball Cap",      price:"$295", colors:["#1a1a1a","#8b6914","#c4a882"], img:"img/14-snapback-cap.jpg"},
+      {id:79, cat:"sviter", brand:"ROBERTO COLLINA",name:"Linen Cotton Crewneck",      price:"$245", colors:["#c4a882","#f5f0e8","#2d4a2d"], img:"img/15-cable-knit-crewneck.jpg"},
+      {id:80, cat:"kurtak", brand:"WHITE MOUNTAINEERING",name:"Stretch Typewriter Coat",price:"$820",colors:["#1a1a1a","#1a2a4a","#2d3a2d"], img:"img/16-fleece-tech-jacket.jpg"},
+      {id:81, cat:"sviter", brand:"MARNI",          name:"Striped Mohair Sweater",     price:"$680", colors:["#8b0000","#c4a882","#1a1a2e"], img:"img/01-merino-wool-sweater.jpg"},
+      {id:82, cat:"hoodie", brand:"REIGNING CHAMP", name:"Midweight Terry Hoodie",     price:"$145", colors:["#1a1a1a","#2d4a2d","#c4a882"], img:"img/02-oversized-hoodie.jpg"},
+      {id:83, cat:"kurtak", brand:"DRIES VAN NOTEN",name:"Embroidered Biker Jacket",   price:"$1450",colors:["#3d2b1f","#8b6914","#1a1a1a"], img:"img/03-leather-biker-jacket.jpg"},
+      {id:84, cat:"koylak", brand:"NOAH",           name:"Core Logo Tee",              price:"$58",  colors:["#f5f0e8","#1a1a1a","#8b0000"], img:"img/04-cotton-oversized-tee.jpg"},
+      {id:85, cat:"sviter", brand:"JUNYA WATANABE", name:"Patchwork Knit Sweater",     price:"$720", colors:["#2d4a2d","#8b0000","#c4a882"], img:"img/05-ribbed-knit-pullover.jpg"},
+      {id:86, cat:"kurtak", brand:"CANADA GOOSE",   name:"Chilliwack Bomber",          price:"$795", colors:["#1a1a1a","#3a1a1a","#2d4a2d"], img:"img/06-puffer-down-jacket.jpg"},
+      {id:87, cat:"hoodie", brand:"FEAR OF GOD",    name:"Eternal Hoodie",             price:"$365", colors:["#c4a882","#4a3728","#1a1a1a"], img:"img/07-box-logo-hoodie.jpg"},
+      {id:88, cat:"koylak", brand:"SACAI",          name:"Hybrid Knit Polo Shirt",     price:"$495", colors:["#1a1a2e","#c4a882","#f5f0e8"], img:"img/08-striped-longsleeve.jpg"},
+      {id:89, cat:"shapka", brand:"ACNE STUDIOS",   name:"Bla Konst Patch Beanie",     price:"$95",  colors:["#1a1a1a","#c4a882","#2d4a2d"], img:"img/09-acrylic-watch-hat.jpg"},
+      {id:90, cat:"sviter", brand:"WOOYOUNGMI",     name:"Back Lettering Knit",        price:"$390", colors:["#c4a882","#1a1a2e","#2d4a2d"], img:"img/10-fairisle-wool-knit.jpg"},
+      {id:91, cat:"kurtak", brand:"ENGINEERED GARMENTS",name:"Bedford Jacket Flannel", price:"$325", colors:["#3d2b1f","#8b6914","#2d4a2d"], img:"img/11-detroit-work-jacket.jpg"},
+      {id:92, cat:"koylak", brand:"ADER ERROR",     name:"Typeface Logo Tee",          price:"$160", colors:["#f5f0e8","#1a1a1a","#1a1a2e"], img:"img/12-essentials-tee.jpg"},
+      {id:93, cat:"hoodie", brand:"SPORTY & RICH",  name:"Crown Hoodie",               price:"$150", colors:["#f5f0e8","#c4a882","#2d4a2d"], img:"img/13-stock-logo-hoodie.jpg"},
+      {id:94, cat:"shapka", brand:"KIJIMA TAKAYUKI",name:"Harris Tweed 6-Panel Cap",   price:"$185", colors:["#3d2b1f","#8b6914","#1a1a1a"], img:"img/14-snapback-cap.jpg"},
+      {id:95, cat:"sviter", brand:"MARGARET HOWELL",name:"Wool Rib Crew Neck",         price:"$295", colors:["#c4a882","#f5f0e8","#1a1a2e"], img:"img/15-cable-knit-crewneck.jpg"},
+      {id:96, cat:"kurtak", brand:"AND WANDER",     name:"60/40 Cloth Jacket",         price:"$420", colors:["#2d4a2d","#1a1a1a","#1a2a4a"], img:"img/16-fleece-tech-jacket.jpg"},
+      {id:97, cat:"hoodie", brand:"GRAMICCI",       name:"One-Point Hooded Sweat",     price:"$115", colors:["#4a3728","#2d4a2d","#1a1a1a"], img:"img/02-oversized-hoodie.jpg"},
+      {id:98, cat:"koylak", brand:"SUNFLOWER",      name:"Logo Longsleeve Tee",        price:"$95",  colors:["#f5f0e8","#c4a882","#1a1a2e"], img:"img/08-striped-longsleeve.jpg"},
+      {id:99, cat:"sviter", brand:"JOHN SMEDLEY",   name:"Lundy Sea Island Cotton",    price:"$220", colors:["#1a1a2e","#c4a882","#2d4a2d"], img:"img/05-ribbed-knit-pullover.jpg"},
+      {id:100,cat:"kurtak", brand:"NANAMICA",       name:"ALPHADRY Coach Jacket",      price:"$485", colors:["#1a2a4a","#1a1a1a","#2d4a2d"], img:"img/11-detroit-work-jacket.jpg"}
+    ];
+
+    let activeFilter = "all";
+    let selectedId = 1;
+
+    function getFiltered() {
+      return activeFilter === "all" ? items : items.filter(i => i.cat === activeFilter);
+    }
+
+    function setFeatured(item) {
+      selectedId = item.id;
+      const img = document.getElementById("featuredImg");
+      img.style.opacity = "0";
+      img.src = item.img;
+      img.alt = item.name;
+      img.onload = () => { img.style.opacity = "1"; };
+      document.getElementById("featuredBrand").textContent = item.brand;
+      document.getElementById("featuredName").textContent = item.name;
+      document.getElementById("featuredPrice").textContent = item.price;
+      const glow = document.getElementById("featuredGlow");
+      glow.style.background = `radial-gradient(ellipse 80% 80% at 50% 50%, ${item.colors[0]}44 0%, transparent 70%)`;
+      const colorRow = document.getElementById("colorRow");
+      colorRow.innerHTML = item.colors.map((c,i) =>
+        `<span class="dot${i===0?' active':''}" style="background:${c}" title="${c}"></span>`
+      ).join("");
+      colorRow.querySelectorAll(".dot").forEach(dot => {
+        dot.addEventListener("click", function() {
+          colorRow.querySelectorAll(".dot").forEach(d => d.classList.remove("active"));
+          this.classList.add("active");
+          glow.style.background = `radial-gradient(ellipse 80% 80% at 50% 50%, ${this.style.background}44 0%, transparent 70%)`;
+        });
+      });
+      document.querySelectorAll(".item-card").forEach(c => {
+        c.classList.toggle("selected", parseInt(c.dataset.id) === item.id);
+      });
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById("itemsGrid");
+      const list = getFiltered();
+      if (list.length === 0) {
+        grid.innerHTML = '<p class="empty-msg">Kiyimlar topilmadi</p>';
+        return;
+      }
+      grid.innerHTML = list.map(item => `
+        <div class="item-card${item.id===selectedId?' selected':''}" data-id="${item.id}">
+          <div class="card-img-wrap">
+            <img src="${item.img}" alt="${item.name}" loading="lazy" />
+            <div class="card-overlay">
+              <span class="card-overlay-name">${item.name}</span>
+              <span class="card-overlay-price">${item.price}</span>
+            </div>
+          </div>
+          <div class="card-meta">
+            <p class="card-brand">${item.brand}</p>
+            <p class="card-name">${item.name}</p>
+            <p class="card-price">${item.price}</p>
+          </div>
+        </div>
+      `).join("");
+      grid.querySelectorAll(".item-card").forEach(card => {
+        card.addEventListener("click", () => {
+          const found = items.find(i => i.id === parseInt(card.dataset.id));
+          if (found) {
+            setFeatured(found);
+            grid.querySelectorAll(".item-card").forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+            if (window.innerWidth < 768) {
+              document.querySelector(".featured-section").scrollIntoView({behavior:"smooth"});
+            }
+          }
+        });
+      });
+    }
+
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeFilter = btn.dataset.filter;
+        renderGrid();
+        const list = getFiltered();
+        if (list.length > 0 && !list.find(i => i.id === selectedId)) {
+          setFeatured(list[0]);
+        }
+      });
+    });
+
+    setFeatured(items[0]);
+    renderGrid();
+  </script>
+</body>
+</html>
